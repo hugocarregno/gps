@@ -33,12 +33,15 @@ import com.google.android.gms.tasks.Task;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
+    private TextView latitud, longitud;
     private GoogleApiClient apiClient;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        ConfigView();
+        validaPermisos();
+        /*
             if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 // TODO: Consider calling
                 //    Activity#requestPermissions
@@ -49,11 +52,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 // for Activity#requestPermissions for more details.
                 return;
             }else{
-                apiClient = new GoogleApiClient.Builder(this)
-                        .enableAutoManage(this, this)
-                        .addConnectionCallbacks(this)
-                        .addApi(LocationServices.API)
-                        .build();
+
                 TextView tv = findViewById(R.id.tv1);
                 LocationManager manager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
                 //LocationProvider p = manager.getProvider(LocationManager.NETWORK_PROVIDER);
@@ -63,9 +62,17 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 Location posicion = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                 //Toast.makeText(this, posicion.getLatitude()+" "+posicion.getLongitude(), Toast.LENGTH_LONG).show();
                 tv.setText(posicion.getLatitude()+" "+posicion.getLongitude());
-            }
+            }*/
+    }
 
-
+    private void ConfigView(){
+        latitud = findViewById(R.id.latitud);
+        longitud = findViewById(R.id.longitud);
+        apiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, this)
+                .addConnectionCallbacks(this)
+                .addApi(LocationServices.API)
+                .build();
     }
 
     private boolean validaPermisos() {
@@ -148,7 +155,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 @Override
                 public void onSuccess(Location location) {
                     if (location != null) {
-                        Toast.makeText(getApplicationContext(), location.getLatitude() + ""+ location.getLongitude(), Toast.LENGTH_LONG).show();
+                        latitud.setText(location.getLatitude()+"");
+                        longitud.setText(location.getLongitude()+"");
                     } else {
                         Toast.makeText(getApplicationContext(), "Conectado sin localizacion", Toast.LENGTH_LONG).show();
                     }
@@ -160,11 +168,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     @Override
     protected void onStart() {
         super.onStart();
-        if(validaPermisos()){
-            apiClient.connect();
-        }
-
-
+        apiClient.connect();
     }
 
     @Override
@@ -175,11 +179,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     @Override
     public void onConnectionSuspended(int i) {
-        Toast.makeText(this, "Se ha interrumpido la conexión",Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Se ha suspendido la conexión",Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Toast.makeText(this, "Error de conexión",Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Fallo la conexión",Toast.LENGTH_LONG).show();
     }
 }
