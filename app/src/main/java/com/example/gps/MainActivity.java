@@ -39,30 +39,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ConfigView();
         validaPermisos();
-        /*
-            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    Activity#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for Activity#requestPermissions for more details.
-                return;
-            }else{
-
-                TextView tv = findViewById(R.id.tv1);
-                LocationManager manager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-                //LocationProvider p = manager.getProvider(LocationManager.NETWORK_PROVIDER);
-                //Toast.makeText(this, p.getName(), Toast.LENGTH_LONG).show();
-
-                @SuppressLint("MissingPermission")
-                Location posicion = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                //Toast.makeText(this, posicion.getLatitude()+" "+posicion.getLongitude(), Toast.LENGTH_LONG).show();
-                tv.setText(posicion.getLatitude()+" "+posicion.getLongitude());
-            }*/
+        ConfigView();
     }
 
     private void ConfigView(){
